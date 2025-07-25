@@ -1,0 +1,14 @@
+1. False
+   In GF(3), subtraction is not always the same as addition because it involves modulo 3. For example, 1 + 2 = 0 but 1 - 2 = 2.
+
+2. True
+   In GF(2^n), all coefficients are in GF(2), where addition and subtraction are the same due to modulo 2 arithmetic: 1 + 1 = 0, and 1 - 1 = 0.
+
+3. True
+   In GF(2), multiplication works exactly like binary AND: 1 * 1 = 1, and any other combination gives 0.
+
+4. False
+   Elements of GF(2^8) must have degree less than 8, since the field is defined modulo an irreducible polynomial of degree 8.
+
+5. True
+   This polynomial has no non-trivial factors over GF(2), so it is irreducible and valid as a modulus for GF(2^4).
