@@ -1,0 +1,10 @@
+Qn 1. How could we perform the exchange of keys in the real world? Do we need a secure channel? Why or why not?
+
+In the real world, Alice (sender) can sign part of the DHKE exchange with her own private key then send it to
+Bob. Bob can then verify the signature with her public key to uphold authentication. Therefore, we do not need
+a secure channel because the values of the DH parameters are secret and difficult to compute.
+
+Qn 2. What is an advantage and a disadvantage of DHKE?
+The advantage of DHKE is that it allows for key exchange over a insecure channel.
+The disadvantage of DHKE is the lack of authentication. An attacker can intercept Alice's DH value and replace
+it with their own, and do the same with Bob. Therefore, authentication is needed.

@@ -89,18 +89,12 @@ def ecb(infile, outfile, mode):
 
     # Unpad result after decryption
     if mode == "d":
+        original_len = int.from_bytes(result[-8:], byteorder="big")
         result = result[:original_len]
 
     # Write output
     with open(outfile, "wb") as f:
         f.write(result)
-
-    if mode == "d":
-        print("\nDecrypted output:")
-        try:
-            print(result.decode("utf-8"))
-        except UnicodeDecodeError:
-            print("Output not UTF-8 decodable (check encryption/decryption)")
 
 
 if __name__ == "__main__":
@@ -118,7 +112,6 @@ if __name__ == "__main__":
     B = get_pub_key(alpha, b, p)
     print("My public key is: ", A)
     print("Test other public key is: ", B)
-    print()
     sharedKeyA = get_shared_key(B, a, p)
     sharedKeyB = get_shared_key(A, b, p)
     print("My shared key is: ", sharedKeyA)
@@ -135,4 +128,8 @@ if __name__ == "__main__":
     outfile = args.outfile
     mode = args.mode
 
-    ecb(infile, outfile, mode)
+    ecb("textA.txt", "ciphertext.txt", "e")
+    ecb("ciphertext.txt", "deciphertext.txt", "d")
+
+    ecb("textB.txt", "ciphertextB.txt", "e")
+    ecb("ciphertextB.txt", "deciphertextB.txt", "d")
