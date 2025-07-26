@@ -24,9 +24,11 @@ def isPrimitive(g, p):
 
 def dhke_setup(nb):
     # TODO: choose a large prime number closest to 2^nb
+    # this is used as the modulus
     p = gen_prime_nbits(nb)
 
     # TODO: choose an integer, a that belongs to [2, 3, ..., p-2] which is a primitive element
+    # this is used as the base
     for g in range(2, p):
         if isPrimitive(g, p):
             a = g
@@ -36,14 +38,29 @@ def dhke_setup(nb):
 
 
 def gen_priv_key(p):
+    """
+    takes in the modulus and chooses a number between 2 and p - 2
+    as the private key
+    """
     return random.randint(2, p - 2)
 
 
 def get_pub_key(alpha, a, p):
+    """
+    Computes the public key by the following formula:
+    publicKey = alpha^a mod p
+    where alpha = a
+    a = random number we picked as private key
+    p = modulus
+    """
     return pow(alpha, a, p)
 
 
 def get_shared_key(keypub, keypriv, p):
+    """
+    Computed by the following formula:
+    sharedKey = public_key_other_party ^ your_own_privateKey mod p
+    """
     return pow(keypub, keypriv, p)
 
 
@@ -117,16 +134,6 @@ if __name__ == "__main__":
     print("My shared key is: ", sharedKeyA)
     print("Test other shared key is: ", sharedKeyB)
     print("Length of key is %d bits." % sharedKeyA.bit_length())
-
-    parser = argparse.ArgumentParser(description="Block cipher using ECB mode.")
-    parser.add_argument("-i", dest="infile", help="input file")
-    parser.add_argument("-o", dest="outfile", help="output file")
-    parser.add_argument("-m", dest="mode", help="mode", choices=["e", "d"])
-
-    args = parser.parse_args()
-    infile = args.infile
-    outfile = args.outfile
-    mode = args.mode
 
     ecb("textA.txt", "ciphertext.txt", "e")
     ecb("ciphertext.txt", "deciphertext.txt", "d")
