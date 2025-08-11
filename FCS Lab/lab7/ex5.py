@@ -89,27 +89,6 @@ def verify_sign(publicKeyFile, sign, data):
     return sigObj.verify(hashedMessage, sign)
 
 
-def square_multiply(base, exponent, modulus):
-    result = 1
-    base = base % modulus
-
-    while exponent > 0:
-        if exponent % 2 == 1:
-            result = (result * base) % modulus
-        base = (base * base) % modulus
-        exponent = exponent // 2
-    return result
-
-
-def encryption(message):
-    key = open("mykey.pem.pub", "r").read()
-    rsaPublicKey = RSA.importKey(key)
-    e = rsaPublicKey.e
-    n = rsaPublicKey.n
-
-    return square_multiply(message, e, n)
-
-
 def rsaDigitalSignatureAttack():
 
     pub_path = "public.pem"
@@ -127,12 +106,8 @@ def rsaDigitalSignatureAttack():
     print("Sending Bob the signature s and the message x...\n")
     print("Now it's Bob's turn!\n")
 
-    h = SHA256.new()
-
-    verifier = PKCS1_PSS.new(pub)
-    ok_pss = verifier.verify(h, s)
-
-    print(f"Result: {ok_pss}")
+    x_bytes = x.to_bytes((x.bit_length() + 7) // 8 or 1, "big")
+    print(f"Result: {verify_sign("public.pem", s, x_bytes)}")
 
 
 if __name__ == "__main__":

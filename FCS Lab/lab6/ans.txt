@@ -8,3 +8,7 @@ Qn 2. What is an advantage and a disadvantage of DHKE?
 The advantage of DHKE is that it allows for key exchange over a insecure channel.
 The disadvantage of DHKE is the lack of authentication. An attacker can intercept Alice's DH value and replace
 it with their own, and do the same with Bob. Therefore, authentication is needed.
+
+Qn 3. Explain one limitation of RSA protocol attacks
+RSA-PSS prevents many RSA signature forgery attacks because the padding structure is part of the verification.
+Without the correct padding, the verification fails even if the raw RSA math checks out.
